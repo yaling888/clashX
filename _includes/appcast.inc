@@ -13,7 +13,7 @@
 			<description><![CDATA[{{ release.body | markdownify }}]]></description>
 			<pubDate>{{ release.published_at | date_to_rfc822 }}</pubDate>
 			<enclosure
-				url="https://github.com/yichengchen/clashX/releases/download/{{ release.tag_name }}/ClashX.dmg"
+				url="https://github.com/yaling888/clashX/releases/download/{{ release.tag_name }}/ClashX.dmg"
 				sparkle:version="{{ release.tag_name }}"
 				type="application/octet-stream"
 			/>
