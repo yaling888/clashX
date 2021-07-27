@@ -842,7 +842,7 @@ extension AppDelegate {
 
         guard let components = URLComponents(string: url),
               let scheme = components.scheme,
-              scheme.hasPrefix("clash"),
+              scheme.hasPrefix("love"),
               let host = components.host
         else { return }
 
@@ -862,6 +862,15 @@ extension AppDelegate {
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "didGetUrl"), object: nil, userInfo: userInfo)
+            }
+        } else if host == "reload" {
+            
+            if let config = components.queryItems?.first(where: { item in
+                item.name == "config"
+            })?.value {
+                updateConfig(configName: config)
+            } else {
+                updateConfig()
             }
         }
     }

@@ -1,11 +1,6 @@
 name: ClashX
 
-on: 
-  push:
-    branches-ignore:
-      - gh-pages
-    #tags:
-    #  - '*'
+on: [push]
 
 env:
   FASTLANE_SKIP_UPDATE_CHECK: true
