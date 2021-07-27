@@ -1,6 +1,6 @@
 //
 //  ProxyGroupMenu.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2020/2/22.
 //  Copyright © 2020 west2online. All rights reserved.

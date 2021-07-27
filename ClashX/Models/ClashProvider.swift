@@ -1,6 +1,6 @@
 //
 //  ClashProvider.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yichengchen on 2019/12/14.
 //  Copyright © 2019 west2online. All rights reserved.

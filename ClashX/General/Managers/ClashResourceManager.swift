@@ -8,6 +8,7 @@ class ClashResourceManager {
     static func check() -> Bool {
         checkConfigDir()
         checkMMDB()
+        checkGeoSite()
         return true
     }
 
@@ -26,7 +27,7 @@ class ClashResourceManager {
 
     static func checkMMDB() {
         let fileManage = FileManager.default
-        let destMMDBPath = "\(kConfigFolderPath)/Country.mmdb"
+        let destMMDBPath = "\(kConfigFolderPath)/geoip.dat"
 
         // Remove old mmdb file after version update.
         if fileManage.fileExists(atPath: destMMDBPath) {
@@ -39,7 +40,7 @@ class ClashResourceManager {
         }
 
         if !fileManage.fileExists(atPath: destMMDBPath) {
-            if let mmdbUrl = Bundle.main.url(forResource: "Country.mmdb", withExtension: "gz") {
+            if let mmdbUrl = Bundle.main.url(forResource: "geoip.dat", withExtension: "gz") {
                 do {
                     let data = try Data(contentsOf: mmdbUrl).gunzipped()
                     try data.write(to: URL(fileURLWithPath: destMMDBPath))
@@ -49,10 +50,35 @@ class ClashResourceManager {
             }
         }
     }
+    
+    static func checkGeoSite() {
+        let fileManage = FileManager.default
+        let destGeoSitePath = "\(kConfigFolderPath)/geosite.dat"
+
+        // Remove old geosite.dat file after version update.
+        if fileManage.fileExists(atPath: destGeoSitePath) {
+            let versionChange = AppVersionUtil.hasVersionChanged || AppVersionUtil.isFirstLaunch
+            let customGeoSiteSet = !Settings.geoSiteDownloadUrl.isEmpty
+            if versionChange && customGeoSiteSet {
+                try? fileManage.removeItem(atPath: destGeoSitePath)
+            }
+        }
+
+        if !fileManage.fileExists(atPath: destGeoSitePath) {
+            if let geoSiteUrl = Bundle.main.url(forResource: "geosite.dat", withExtension: "gz") {
+                do {
+                    let data = try Data(contentsOf: geoSiteUrl).gunzipped()
+                    try data.write(to: URL(fileURLWithPath: destGeoSitePath))
+                } catch let err {
+                    Logger.log("add geosite.dat fail:\(err)", level: .error)
+                }
+            }
+        }
+    }
 
     static func showCreateConfigDirFailAlert(err: String) {
         let alert = NSAlert()
-        alert.messageText = NSLocalizedString("ClashX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart ClashX." + err, comment: "")
+        alert.messageText = NSLocalizedString("LoveX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart LoveX." + err, comment: "")
         alert.alertStyle = .warning
         alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
         alert.runModal()
@@ -70,7 +96,7 @@ extension ClashResourceManager {
     @objc private static func updateGeoIP() {
         guard let url = showCustomAlert() else { return }
         AF.download(url, to:  { (_, _) in
-            let path = kConfigFolderPath.appending("/Country.mmdb")
+            let path = kConfigFolderPath.appending("/geoip.dat")
             return (URL(fileURLWithPath: path), .removePreviousFile)
         }).response { res in
             var info: String
@@ -97,12 +123,13 @@ extension ClashResourceManager {
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Custom your GEOIP MMDB download address.", comment: "")
         let inputView = NSTextField(frame: NSRect(x: 0, y: 0, width: 250, height: 24))
-        inputView.placeholderString =  "https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb"
+        inputView.placeholderString =  "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
         inputView.stringValue = Settings.mmdbDownloadUrl
         alert.accessoryView = inputView
         alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == .alertFirstButtonReturn {
+            Settings.geoSiteDownloadUrl = "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
             if inputView.stringValue.isEmpty {
                 return inputView.placeholderString
             }

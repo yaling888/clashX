@@ -1,6 +1,6 @@
 //
 //  AppVersionUtil.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2019/2/18.
 //  Copyright © 2019 west2online. All rights reserved.
@@ -11,7 +11,7 @@ import Cocoa
 class AppVersionUtil: NSObject {
     private static let shared = AppVersionUtil()
 
-    private static let kLastVersionNumberKey = "com.clashX.lastVersionNumber"
+    private static let kLastVersionNumberKey = "com.loveX.lastVersionNumber"
 
     private let lastVersionNumber: String?
 
@@ -46,7 +46,7 @@ extension AppVersionUtil {
         if let lastVersion = shared.lastVersionNumber, hasVersionChanged {
             guard lastVersion.compare("1.30.0", options: .numeric) == .orderedAscending else { return }
             let alert = NSAlert()
-            alert.messageText = NSLocalizedString("This version of ClashX contains a break change due to clash core 1.0 released. Check if your config is not working properly.", comment: "")
+            alert.messageText = NSLocalizedString("This version of LoveX contains a break change due to clash core 1.0 released. Check if your config is not working properly.", comment: "")
             alert.alertStyle = .informational
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.addButton(withTitle: NSLocalizedString("Details", comment: ""))

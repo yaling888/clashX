@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/6/10.
 //  Copyright © 2018年 yichengchen. All rights reserved.
@@ -11,9 +11,6 @@ import Cocoa
 import LetsMove
 import RxCocoa
 import RxSwift
-
-import AppCenter
-import AppCenterAnalytics
 
 
 private let statusItemLengthWithSpeed: CGFloat = 72
@@ -60,9 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
-        // crash recorder
-        failLaunchProtect()
-        registCrashLogger()
+        
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -129,7 +124,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
             NetworkChangeNotifier.hasInterfaceProxySetToClash() {
-            Logger.log("ClashX quit need clean proxy setting")
+            Logger.log("LoveX quit need clean proxy setting")
             shouldWait = true
             group.enter()
 
@@ -139,7 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if !shouldWait {
-            Logger.log("ClashX quit without clean waiting")
+            Logger.log("LoveX quit without clean waiting")
             return .terminateNow
         }
 
@@ -152,7 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let res = group.wait(timeout: .now() + 5)
             switch res {
             case .success:
-                Logger.log("ClashX quit after clean up finish")
+                Logger.log("LoveX quit after clean up finish")
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
                     NSApp.reply(toApplicationShouldTerminate: true)
                 }
@@ -160,7 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     NSApp.reply(toApplicationShouldTerminate: true)
                 }
             case .timedOut:
-                Logger.log("ClashX quit after clean up timeout")
+                Logger.log("LoveX quit after clean up timeout")
                 DispatchQueue.main.async {
                     NSApp.reply(toApplicationShouldTerminate: true)
                 }
@@ -170,13 +165,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        Logger.log("ClashX quit wait for clean up")
+        Logger.log("LoveX quit wait for clean up")
         return .terminateLater
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         UserDefaults.standard.set(0, forKey: "launch_fail_times")
-        Logger.log("ClashX will terminate")
+        Logger.log("LoveX will terminate")
         if NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
             NetworkChangeNotifier.hasInterfaceProxySetToClash() {
             Logger.log("Need Reset Proxy Setting again",level: .error)
@@ -345,7 +340,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .distinctUntilChanged()
             .filter { $0 }.bind { _ in
                 let rawProxy = NetworkChangeNotifier.getRawProxySetting()
-                Logger.log("proxy changed to no clashX setting: \(rawProxy)", level: .warning)
+                Logger.log("proxy changed to no loveX setting: \(rawProxy)", level: .warning)
                 NSUserNotificationCenter.default.postProxyChangeByOtherAppNotice()
             }.disposed(by: disposeBag)
 
@@ -585,7 +580,7 @@ extension AppDelegate {
     @IBAction func actionSetSystemProxy(_ sender: Any) {
         var canSaveProxy = true
         if ConfigManager.shared.isProxySetByOtherVariable.value {
-            // should reset proxy to clashx
+            // should reset proxy to lovex
             ConfigManager.shared.isProxySetByOtherVariable.accept(false)
             ConfigManager.shared.proxyPortAutoSet = true
             // clear then reset.
@@ -703,7 +698,7 @@ extension AppDelegate {
 
     @IBAction func actionSetUseApiMode(_ sender: Any) {
         let alert = NSAlert()
-        alert.informativeText = NSLocalizedString("Need to Restart the ClashX to Take effect, Please start clashX manually", comment: "")
+        alert.informativeText = NSLocalizedString("Need to Restart the LoveX to Take effect, Please start loveX manually", comment: "")
         alert.addButton(withTitle: NSLocalizedString("Apply and Quit", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == .alertFirstButtonReturn {
@@ -736,49 +731,6 @@ extension AppDelegate {
                 err.runModal()
             }
         }
-    }
-}
-
-// MARK: crash hanlder
-
-extension AppDelegate {
-    func registCrashLogger() {
-        #if DEBUG
-            return
-        #else
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                AppCenter.start(withAppSecret: "dce6e9a3-b6e3-4fd2-9f2d-35c767a99663", services: [
-                    Analytics.self,
-                ])
-            }
-        
-        #endif
-    }
-
-    func failLaunchProtect() {
-        #if DEBUG
-            return
-        #else
-            UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
-            let x = UserDefaults.standard
-            var launch_fail_times: Int = 0
-            if let xx = x.object(forKey: "launch_fail_times") as? Int { launch_fail_times = xx }
-            launch_fail_times += 1
-            x.set(launch_fail_times, forKey: "launch_fail_times")
-            if launch_fail_times > 3 {
-                // 发生连续崩溃
-                ConfigFileManager.backupAndRemoveConfigFile()
-                try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
-                if let domain = Bundle.main.bundleIdentifier {
-                    UserDefaults.standard.removePersistentDomain(forName: domain)
-                    UserDefaults.standard.synchronize()
-                }
-                NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed")
-            }
-            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
-                x.set(0, forKey: "launch_fail_times")
-            })
-        #endif
     }
 }
 

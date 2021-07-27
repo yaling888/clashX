@@ -1,6 +1,6 @@
 //
 //  AboutViewController.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/8/19.
 //  Copyright © 2018年 west2online. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  PrivilegedHelperManager+Legacy.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng 2020/4/22.
 //  Copyright © 2020 west2online. All rights reserved.

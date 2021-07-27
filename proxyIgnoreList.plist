@@ -4,11 +4,12 @@
 <array>
 	<string>192.168.0.0/16</string>
 	<string>10.0.0.0/8</string>
+	<string>100.64.0.0/10</string>
 	<string>172.16.0.0/12</string>
 	<string>127.0.0.1</string>
 	<string>localhost</string>
 	<string>*.local</string>
-	<string>*.crashlytics.com</string>
-	<string>my-custom-site.com</string>
+	<string>*.lan</string>
+	<string>localhost.ptlogin2.qq.com</string>
 </array>
 </plist>

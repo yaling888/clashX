@@ -1,6 +1,6 @@
 //
 //  NSUserNotificationCenter+Extension.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/8/6.
 //  Copyright © 2018年 yichengchen. All rights reserved.
@@ -56,7 +56,7 @@ extension NSUserNotificationCenter {
 
     func postProxyChangeByOtherAppNotice() {
         post(title: NSLocalizedString("System Proxy Changed", comment: ""),
-             info: NSLocalizedString("Proxy settings are changed by another process. ClashX is no longer the default system proxy.", comment: ""))
+             info: NSLocalizedString("Proxy settings are changed by another process. LoveX is no longer the default system proxy.", comment: ""))
     }
 }
 

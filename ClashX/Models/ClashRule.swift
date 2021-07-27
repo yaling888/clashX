@@ -1,6 +1,6 @@
 //
 //  ClashRule.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/10/27.
 //  Copyright © 2018 west2online. All rights reserved.

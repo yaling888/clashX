@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-               BuildableName = "ClashX.app"
-               BlueprintName = "ClashX"
+               BuildableName = "LoveX.app"
+               BlueprintName = "LoveX"
                ReferencedContainer = "container:ClashX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -31,8 +31,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
+            BuildableName = "LoveX.app"
+            BlueprintName = "LoveX"
             ReferencedContainer = "container:ClashX.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -54,8 +54,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
+            BuildableName = "LoveX.app"
+            BlueprintName = "LoveX"
             ReferencedContainer = "container:ClashX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,8 +71,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
+            BuildableName = "LoveX.app"
+            BlueprintName = "LoveX"
             ReferencedContainer = "container:ClashX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -1,6 +1,6 @@
 //
 //  ClientOnlyManager.swift
-//  ClashX Pro
+//  LoveX Pro
 //
 //  Created by 称一称 on 2020/6/16.
 //  Copyright © 2020 west2online. All rights reserved.

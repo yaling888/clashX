@@ -1,6 +1,6 @@
 //
 //  ProxySettingTool.m
-//  com.west2online.ClashX.ProxyConfigHelper
+//  com.example.LoveX.ProxyConfigHelper
 //
 //  Created by yichengchen on 2019/8/17.
 //  Copyright © 2019 west2online. All rights reserved.
@@ -93,7 +93,7 @@
 
 + (NSMutableDictionary<NSString *,NSDictionary *> *)currentProxySettings {
     __block NSMutableDictionary<NSString *,NSDictionary *> *info = [NSMutableDictionary dictionary];
-    SCPreferencesRef ref = SCPreferencesCreate(nil, CFSTR("ClashX"), nil);
+    SCPreferencesRef ref = SCPreferencesCreate(nil, CFSTR("LoveX"), nil);
     [ProxySettingTool getDiviceListWithPrefRef:ref filterInterface:YES devices:^(NSString *key, NSDictionary *dev) {
         NSDictionary *proxySettings = dev[(__bridge NSString *)kSCEntNetProxies];
         info[key] = [proxySettings copy];
@@ -138,11 +138,14 @@
     NSArray *ignoreList = @[
         @"192.168.0.0/16",
         @"10.0.0.0/8",
+        @"100.64.0.0/10",
         @"172.16.0.0/12",
         @"127.0.0.1",
         @"localhost",
+        @"*.lan",
         @"*.local",
-        @"timestamp.apple.com"
+        @"timestamp.apple.com",
+        @"localhost.ptlogin2.qq.com"
     ];
     return ignoreList;
 }
@@ -240,7 +243,7 @@
 }
 
 - (void)applySCNetworkSettingWithRef:(void(^)(SCPreferencesRef))callback {
-    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.west2online.ClashX.ProxyConfigHelper.config"), nil, self.authRef);
+    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.example.LoveX.ProxyConfigHelper.config"), nil, self.authRef);
     if (!ref) {
         return;
     }

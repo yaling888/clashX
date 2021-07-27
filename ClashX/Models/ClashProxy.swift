@@ -1,6 +1,6 @@
 //
 //  ClashProxy.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2019/3/17.
 //  Copyright © 2019 west2online. All rights reserved.
@@ -20,6 +20,7 @@ enum ClashProxyType: String, Codable {
     case socks5 = "Socks5"
     case http = "Http"
     case vmess = "Vmess"
+    case vless = "Vless"
     case snell = "Snell"
     case trojan = "Trojan"
     case relay = "Relay"

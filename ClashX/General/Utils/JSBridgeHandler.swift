@@ -1,6 +1,6 @@
 //
 //  JSBridgeHandler.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/8/29.
 //  Copyright © 2018年 west2online. All rights reserved.

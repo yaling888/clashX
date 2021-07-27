@@ -1,6 +1,6 @@
 //
 //  NetworkChangeNotifier.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2019/10/15.
 //  Copyright © 2019 west2online. All rights reserved.
@@ -33,7 +33,7 @@ class NetworkChangeNotifier {
         var dynamicContext = SCDynamicStoreContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
         let dcAddress = withUnsafeMutablePointer(to: &dynamicContext, { UnsafeMutablePointer<SCDynamicStoreContext>($0) })
 
-        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.clashx.proxy.networknotification" as CFString, changed, dcAddress) {
+        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.lovex.proxy.networknotification" as CFString, changed, dcAddress) {
             let keysArray = ["State:/Network/Global/Proxies" as CFString] as CFArray
             SCDynamicStoreSetNotificationKeys(dynamicStore, nil, keysArray)
             let loop = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynamicStore, 0)
@@ -49,7 +49,7 @@ class NetworkChangeNotifier {
         var dynamicContext = SCDynamicStoreContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
         let dcAddress = withUnsafeMutablePointer(to: &dynamicContext, { UnsafeMutablePointer<SCDynamicStoreContext>($0) })
 
-        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.clashx.ipv4.networknotification" as CFString, changed, dcAddress) {
+        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.lovex.ipv4.networknotification" as CFString, changed, dcAddress) {
             let keysArray = ["State:/Network/Global/IPv4" as CFString] as CFArray
             SCDynamicStoreSetNotificationKeys(dynamicStore, nil, keysArray)
             let loop = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynamicStore, 0)
@@ -95,7 +95,7 @@ class NetworkChangeNotifier {
     static func hasInterfaceProxySetToClash() -> Bool {
         let currentPort = ConfigManager.shared.currentConfig?.usedHttpPort
         let currentSocks = ConfigManager.shared.currentConfig?.usedSocksPort
-        if let prefRef = SCPreferencesCreate(nil, "ClashX" as CFString, nil),
+        if let prefRef = SCPreferencesCreate(nil, "LoveX" as CFString, nil),
            let sets = SCPreferencesGetValue(prefRef, kSCPrefNetworkServices){
             for key in sets.allKeys {
                 let dict = sets[key] as? NSDictionary
@@ -117,7 +117,7 @@ class NetworkChangeNotifier {
     }
 
     static func getPrimaryInterface() -> String? {
-        let store = SCDynamicStoreCreate(nil, "ClashX" as CFString, nil, nil)
+        let store = SCDynamicStoreCreate(nil, "LoveX" as CFString, nil, nil)
         if store == nil {
             return nil
         }
@@ -128,7 +128,7 @@ class NetworkChangeNotifier {
     }
 
     static func getCurrentDns() -> [String] {
-        let store = SCDynamicStoreCreate(nil, "ClashX" as CFString, nil, nil)
+        let store = SCDynamicStoreCreate(nil, "LoveX" as CFString, nil, nil)
         if store == nil {
             return []
         }

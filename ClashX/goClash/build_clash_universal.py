@@ -7,10 +7,14 @@ import filecmp
 def get_version():
     with open('./go.mod') as file:
         for line in file.readlines():
-            if "clash" in line and "ClashX" not in line:
-                return line.split("-")[-1].strip()[:6]
+            if "yaling888/clash" in line:
+                return line.split("/")[-1].split(" ")[-1]
     return "unknown"
 
+def go_mod_download():
+    v = get_version()
+    commandl = "rm -f go.sum && go mod tidy"
+    subprocess.check_output(commandl, shell=True)
 
 def build_clash(version,build_time,arch):
     clang = f"{os.getcwd()}/clangWrap.sh"
@@ -62,7 +66,9 @@ def run():
     build_time = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
     print("clean existing")
     subprocess.check_output("rm -f *.h *.a", shell=True)
-        
+    
+    print("go mod download...")
+    go_mod_download()
     print("create arm64")
     build_clash(version,build_time,"arm64")
     print("create amd64")

@@ -1,6 +1,6 @@
 //
 //  String+Extension.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2018/10/7.
 //  Copyright © 2018年 west2online. All rights reserved.

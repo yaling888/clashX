@@ -1,6 +1,6 @@
 //
 //  ApiRequest.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2018/7/30.
 //  Copyright © 2018年 yichengchen. All rights reserved.
@@ -23,9 +23,9 @@ class ApiRequest {
 
     private var proxyRespCache: ClashProxyResp?
 
-    private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
+    private lazy var logQueue = DispatchQueue(label: "com.LoveX.core.log")
 
-    static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
+    static let clashRequestQueue = DispatchQueue(label: "com.lovex.clashRequestQueue")
 
     private init() {
         let configuration = URLSessionConfiguration.default
@@ -97,7 +97,7 @@ class ApiRequest {
 
         let data = clashGetConfigs()?.toString().data(using: .utf8) ?? Data()
         guard let config = ClashConfig.fromData(data) else {
-            NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
+            NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart LoveX.")
             (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
             return
         }
@@ -121,7 +121,7 @@ class ApiRequest {
     }
 
     static func requestConfigUpdate(configPath: String, callback: @escaping ((ErrorString?) -> Void)) {
-        let placeHolderErrorDesp = "Error occoured, Please try to fix it by restarting ClashX. "
+        let placeHolderErrorDesp = "Error occoured, Please try to fix it by restarting LoveX. "
 
         // DEV MODE: Use API
         if !useDirectApi() {

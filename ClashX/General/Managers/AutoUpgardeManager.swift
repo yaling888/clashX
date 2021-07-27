@@ -1,6 +1,6 @@
 //
 //  AutoUpgardeManager.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2019/10/28.
 //  Copyright © 2019 west2online. All rights reserved.
@@ -15,7 +15,7 @@ class AutoUpgardeManager: NSObject {
     private var current: Channel = {
         if let value = UserDefaults.standard.object(forKey: "AutoUpgardeManager.current") as? Int,
             let channel = Channel(rawValue: value) { return channel }
-        return .stable
+        return .prelease
     }() {
         didSet {
             UserDefaults.standard.set(current.rawValue, forKey: "AutoUpgardeManager.current")
@@ -88,7 +88,6 @@ extension AutoUpgardeManager {
     enum Channel: Int, CaseIterable {
         case stable
         case prelease
-        case appcenter
     }
 }
 
@@ -99,19 +98,15 @@ extension AutoUpgardeManager.Channel {
             return NSLocalizedString("Stable", comment: "")
         case .prelease:
             return NSLocalizedString("Prelease", comment: "")
-        case .appcenter:
-            return "Appcenter"
         }
     }
 
     var urlString: String {
         switch self {
         case .stable:
-            return "https://yichengchen.github.io/clashX/appcast.xml"
+            return "https://yaling888.github.io/clashX/appcast.xml"
         case .prelease:
-            return "https://yichengchen.github.io/clashX/appcast_pre.xml"
-        case .appcenter:
-            return "https://api.appcenter.ms/v0.1/public/sparkle/apps/dce6e9a3-b6e3-4fd2-9f2d-35c767a99663"
+            return "https://yaling888.github.io/clashX/appcast_pre.xml"
         }
     }
 }

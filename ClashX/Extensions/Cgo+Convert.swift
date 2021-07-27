@@ -1,6 +1,6 @@
 //
 //  Cgo+Convert.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2019/10/2.
 //  Copyright © 2019 west2online. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  UnsafePointer+bridge.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2019/10/31.
 //  Copyright © 2019 west2online. All rights reserved.

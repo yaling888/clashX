@@ -1,6 +1,6 @@
 //
 //  String+Encode.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2019/12/11.
 //  Copyright © 2019 west2online. All rights reserved.

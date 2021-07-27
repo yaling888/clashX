@@ -1,6 +1,6 @@
 //
 //  ProxyMenuItem.swift
-//  ClashX
+//  LoveX
 //
 //  Created by CYC on 2019/2/18.
 //  Copyright © 2019 west2online. All rights reserved.

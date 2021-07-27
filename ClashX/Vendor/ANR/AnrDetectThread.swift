@@ -27,7 +27,7 @@ class AnrDetectThread: Thread {
         
         self.handler = handler
         self.threshold = threshold
-        name = "com.west2online.ClashX.anrDetectThread"
+        name = "com.example.LoveX.anrDetectThread"
         start()
     }
     

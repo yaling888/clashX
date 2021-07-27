@@ -1,6 +1,6 @@
 //
 //  PrivilegedHelperManager.swift
-//  ClashX
+//  LoveX
 //
 //  Created by yicheng on 2020/4/21.
 //  Copyright © 2020 west2online. All rights reserved.
@@ -19,7 +19,7 @@ class PrivilegedHelperManager {
     private var authRef: AuthorizationRef?
     private var connection: NSXPCConnection?
     private var _helper: ProxyConfigRemoteProcessProtocol?
-    static let machServiceName = "com.west2online.ClashX.ProxyConfigHelper"
+    static let machServiceName = "com.example.LoveX.ProxyConfigHelper"
 
     static let shared = PrivilegedHelperManager()
     init() {
@@ -217,7 +217,7 @@ extension PrivilegedHelperManager {
 
     private func showInstallHelperAlert() -> Bool {
         let alert = NSAlert()
-        alert.messageText = NSLocalizedString("ClashX needs to install/update a helper tool with administrator privileges, otherwise ClashX won't be able to configure system proxy.", comment: "")
+        alert.messageText = NSLocalizedString("LoveX needs to install/update a helper tool with administrator privileges, otherwise LoveX won't be able to configure system proxy.", comment: "")
         alert.alertStyle = .warning
         if useLegacyInstall {
             alert.addButton(withTitle: NSLocalizedString("Legacy Install", comment: ""))
@@ -271,7 +271,7 @@ fileprivate enum DaemonInstallResult {
             case kSMErrorJobNotFound: return "blessError: kSMErrorJobNotFound"
             case kSMErrorServiceUnavailable: return "blessError: kSMErrorServiceUnavailable"
             case kSMErrorJobNotFound: return "blessError: kSMErrorJobNotFound"
-            case kSMErrorJobMustBeEnabled: return "ClashX Helper is disabled by other process. Please run \"sudo launchctl enable system/\(PrivilegedHelperManager.machServiceName)\" in your terminal. The command has been copied to your pasteboard"
+            case kSMErrorJobMustBeEnabled: return "LoveX Helper is disabled by other process. Please run \"sudo launchctl enable system/\(PrivilegedHelperManager.machServiceName)\" in your terminal. The command has been copied to your pasteboard"
             case kSMErrorInvalidPlist: return "blessError: kSMErrorInvalidPlist"
             default:
                 return "bless unknown error:\(code)"

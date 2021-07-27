@@ -27,13 +27,13 @@
 "Cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"ClashX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart ClashX." = "ClashX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart ClashX.";
+"LoveX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart LoveX." = "LoveX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart LoveX.";
 
 /* No comment provided by engineer. */
-"ClashX needs to install/update a helper tool with administrator privileges, otherwise ClashX won't be able to configure system proxy." = "ClashX needs to install/update a helper tool with administrator privileges, otherwise ClashX won't be able to configure system proxy.";
+"LoveX needs to install/update a helper tool with administrator privileges, otherwise LoveX won't be able to configure system proxy." = "LoveX needs to install/update a helper tool with administrator privileges, otherwise LoveX won't be able to configure system proxy.";
 
 /* No comment provided by engineer. */
-"ClashX Start Error!" = "ClashX Start Error!";
+"LoveX Start Error!" = "LoveX Start Error!";
 
 /* No comment provided by engineer. */
 "Config file have been changed" = "Config file have been changed";
@@ -81,7 +81,7 @@
 "Load Balance" = "Load Balance";
 
 /* No comment provided by engineer. */
-"Need to Restart the ClashX to Take effect, Please start clashX manually" = "Need to Restart the ClashX to Take effect, Please start clashX manually";
+"Need to Restart the LoveX to Take effect, Please start loveX manually" = "Need to Restart the LoveX to Take effect, Please start loveX manually";
 
 /* No comment provided by engineer. */
 "Never" = "Never";
@@ -90,7 +90,7 @@
 "OK" = "OK";
 
 /* No comment provided by engineer. */
-"Ports Open Fail, Please try to restart ClashX" = "Ports Open Fail, Please try to restart ClashX";
+"Ports Open Fail, Please try to restart LoveX" = "Ports Open Fail, Please try to restart LoveX";
 
 /* No comment provided by engineer. */
 "Prelease" = "Prelease";
@@ -99,7 +99,7 @@
 "Proxy Mode" = "Proxy Mode";
 
 /* No comment provided by engineer. */
-"Proxy settings are changed by another process. ClashX is no longer the default system proxy." = "Proxy settings are changed by another process. ClashX is no longer the default system proxy.";
+"Proxy settings are changed by another process. LoveX is no longer the default system proxy." = "Proxy settings are changed by another process. LoveX is no longer the default system proxy.";
 
 /* No comment provided by engineer. */
 "Quit" = "Quit";
@@ -153,7 +153,7 @@
 "The remote config name is duplicated" = "The remote config name is duplicated";
 
 /* No comment provided by engineer. */
-"This version of ClashX contains a break change due to clash core 1.0 released. Check if your config is not working properly." = "This version of ClashX contains a break change due to clash core 1.0 released. Check if your config is not working properly.";
+"This version of LoveX contains a break change due to clash core 1.0 released. Check if your config is not working properly." = "This version of LoveX contains a break change due to clash core 1.0 released. Check if your config is not working properly.";
 
 /* No comment provided by engineer. */
 "Update GEOIP Database" = "Update GEOIP Database";

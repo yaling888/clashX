@@ -16,7 +16,6 @@ import (
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/hub/route"
 	"github.com/Dreamacro/clash/log"
-	"github.com/oschwald/geoip2-golang"
 	"github.com/phayes/freeport"
 )
 
@@ -200,17 +199,7 @@ func clashGetConfigs() *C.char {
 
 //export verifyGEOIPDataBase
 func verifyGEOIPDataBase() bool {
-	mmdb, err := geoip2.Open(constant.Path.MMDB())
-	if err != nil {
-		log.Warnln("mmdb fail:%s", err.Error())
-		return false
-	}
 
-	_, err = mmdb.Country(net.ParseIP("114.114.114.114"))
-	if err != nil {
-		log.Warnln("mmdb lookup fail:%s", err.Error())
-		return false
-	}
 	return true
 }
 

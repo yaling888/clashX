@@ -1,6 +1,11 @@
 name: ClashX
 
-on: [push]
+on: 
+  push:
+    branches-ignore:
+      - gh-pages
+    #tags:
+    #  - '*'
 
 env:
   FASTLANE_SKIP_UPDATE_CHECK: true
@@ -13,7 +18,10 @@ jobs:
     - name: import certs
       run: |
         echo `/usr/bin/xcodebuild -version`
-        openssl aes-256-cbc -k  "${{ secrets.ENCRYPTION_SECRET }}" -in ".github/certs/dist.p12.enc" -d -a -out ".github/certs/dist.p12" -md md5
+        rm -f .github/certs/dist.p12.enc
+        mkdir -p .github/certs/
+        echo "${{ secrets.CERT_CONTENT_ENC }}" > .github/certs/dist.p12.enc
+        openssl aes-256-cbc -k "${{ secrets.ENCRYPTION_SECRET }}" -in ".github/certs/dist.p12.enc" -d -a -out ".github/certs/dist.p12" -md md5
         gem install bundler:1.16.2
         bundle install
 
@@ -30,66 +38,89 @@ jobs:
 
     - name: build
       env:
-        CODE_SIGN_IDENTITY: "Developer ID Application: Fuzhou West2Online Internet Inc. (MEWHFZ92DY)"
+        CODE_SIGN_IDENTITY: "${{ secrets.DEVELOPER_ID }}"
+        CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+        SM_JOB_BLESS_REQ: ${{ secrets.SM_JOB_BLESS_REQ }}
       run: |
         bash install_dependency.sh
         cd ClashX
         python3 add_build_info.py
         cd ..
+        #ls -lahF
+        #cat ClashX/goClash/go.sum
         bundle exec fastlane build
+        #ls -lahF
+        #echo "SMJobBless setreq"
+        #python SMJobBlessUtil.py setreq LoveX.app ClashX/Info.plist ProxyConfigHelper/Helper-Info.plist
+        #cat ClashX/Info.plist
+        #cat ProxyConfigHelper/Helper-Info.plist
+        #rm -rvf LoveX.app
+        #bundle exec fastlane build
         echo "Checking SMJobBless Vailded"
-        python SMJobBlessUtil.py check ClashX.app
+        python SMJobBlessUtil.py check LoveX.app
         echo "Check done"
-
+    
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: github.actor == github.repository_owner && contains(github.event.head_commit.message, '[ssh]')
+        
     - name: setup node
-      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[appcenter]')
+      #if: startsWith(github.ref, 'refs/tags/')
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-
+        
     - name: create dmg
-      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[appcenter]')
+      #if: startsWith(github.ref, 'refs/tags/')
       run: |
         npm install --global create-dmg
-        create-dmg ClashX.app
-        mv ClashX*.dmg ClashX.dmg
+        create-dmg LoveX.app --identity="${{ secrets.DEVELOPER_ID }}"
+        #create-dmg LoveX.app || true
+        mv LoveX*.dmg LoveX.dmg
 
-    - name: notarize 
-      if: startsWith(github.ref, 'refs/tags/')  || contains(github.event.head_commit.message, '[notarize]')
-      env:
-        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-        FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+    - name: Prepare upload
+      if: startsWith(github.ref, 'refs/tags/') == false
       run: |
-        bundle exec fastlane run notarize package:"./ClashX.dmg" bundle_id:"com.west2online.ClashX" asc_provider:MEWHFZ92DY
-
-    - name: upload to appcenter 
-      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[appcenter]')
-      env:
-        APPCENTER_DISTRIBUTE_UPLOAD_BUILD_ONLY: true
-        APPCENTER_DISTRIBUTE_DESTINATIONS: Public
-        APPCENTER_APP_NAME: ClashX
-        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
-        APPCENTER_DISTRIBUTE_FILE: ClashX.dmg
-        APPCENTER_OWNER_NAME: ${{ secrets.APPCENTER_OWNER_NAME }}
-      run: |
-        appversion=`defaults read \`pwd\`/ClashX.app/Contents/Info.plist CFBundleShortVersionString`
-        buildVersion=`defaults read \`pwd\`/ClashX.app/Contents/Info.plist CFBundleVersion`
-        branch=${GITHUB_REF##*/}
-        version=$appversion.$branch
-        bundle exec fastlane run appcenter_upload version:${version} build_number:${buildVersion}
-
-    - name: upload build to github
+        echo "FILE_DATE=_$(date +"%F")" >> $GITHUB_ENV
+        echo "FILE_SHA=$(git describe --tags --always 2>/dev/null)" >> $GITHUB_ENV
+        
+    - name: Upload DMG to Github Artifacts
+      if: startsWith(github.ref, 'refs/tags/') == false
+      uses: actions/upload-artifact@v2
+      with:
+        name: LoveX_${{ env.FILE_SHA }}${{ env.FILE_DATE }}.dmg
+        path: LoveX.dmg
+            
+    - name: upload build to github releases
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: ClashX.dmg
-        # draft: true
-        # prerelease: true
+        files: LoveX.dmg
+        #draft: true
+        prerelease: true
 
     - name: update gitpage
       if: startsWith(github.ref, 'refs/tags/')
       env:
         GITHUB_TOKEN: ${{ secrets.GITPAGE_TOKEN }}
-      run: 'curl -u yichengchen:$GITHUB_TOKEN -X POST https://api.github.com/repos/yichengchen/clashX/pages/builds -H "Accept: application/vnd.github.mister-fantastic-preview+json"'
+      run: |
+        curl -u yaling888:$GITHUB_TOKEN -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/yaling888/clashX/pages/builds
+
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 2
+    
+    - name: Delete older releases
+      uses: dev-drprasad/delete-older-releases@v0.2.0
+      if: startsWith(github.ref, 'refs/tags/') && !cancelled()
+      with:
+        #repo: <owner>/<repoName> # defaults to current repo
+        keep_latest: 1
+        #delete_tag_pattern: beta # defaults to ""
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
