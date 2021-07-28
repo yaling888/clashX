@@ -67,7 +67,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItemView = StatusItemView.create(statusItem: statusItem)
         statusItemView.frame = CGRect(x: 0, y: 0, width: statusItemLengthWithSpeed, height: 22)
         statusMenu.delegate = self
-        startAnrDetect()
+        //disable Anr do bad things
+        //startAnrDetect()
         DispatchQueue.main.async {
             self.postFinishLaunching()
         }
@@ -735,15 +736,15 @@ extension AppDelegate {
 }
 
 // MARK: ANR
-extension AppDelegate {
-    private func startAnrDetect() {
-        #if DEBUG
-        return
-        #else
-        AnrDetectUtil.shared.start()
-        #endif
-    }
-}
+//extension AppDelegate {
+//    private func startAnrDetect() {
+//        #if DEBUG
+//        return
+//        #else
+//        AnrDetectUtil.shared.start()
+//        #endif
+//    }
+//}
 
 // MARK: Memory
 

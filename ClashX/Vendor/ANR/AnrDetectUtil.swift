@@ -10,21 +10,21 @@
 import Cocoa
 
 class AnrDetectUtil {
-    static let shared = AnrDetectUtil()
-    
-    private init() {}
-    lazy var thread = AnrDetectThread()
-    
-    
-    func start(threshold: Double = 10) {
-        thread.start(threshold: threshold) {
-            [weak thread] allThreadBackTrace in
-            Logger.log("[ANR] \(allThreadBackTrace)", level: .error)
-            thread?.cancel()
-        }
-    }
-    
-    func stop() {
-        thread.cancel()
-    }
+//    static let shared = AnrDetectUtil()
+//
+//    private init() {}
+//    lazy var thread = AnrDetectThread()
+//
+//
+//    func start(threshold: Double = 10) {
+//        thread.start(threshold: threshold) {
+//            [weak thread] allThreadBackTrace in
+//            Logger.log("[ANR] \(allThreadBackTrace)", level: .error)
+//            thread?.cancel()
+//        }
+//    }
+//
+//    func stop() {
+//        thread.cancel()
+//    }
 }
