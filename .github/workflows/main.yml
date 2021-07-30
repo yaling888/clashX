@@ -60,13 +60,13 @@ jobs:
       if: github.actor == github.repository_owner && contains(github.event.head_commit.message, '[ssh]')
         
     - name: setup node
-      #if: startsWith(github.ref, 'refs/tags/')
+      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[up]')
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
         
     - name: create dmg
-      #if: startsWith(github.ref, 'refs/tags/')
+      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[up]')
       run: |
         npm install --global create-dmg
         create-dmg LoveX.app --identity="${{ secrets.DEVELOPER_ID }}"
@@ -101,13 +101,13 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITPAGE_TOKEN }}
       run: |
-        curl -u yaling888:$GITHUB_TOKEN -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/yaling888/clashX/pages/builds
+        curl -u $GITHUB_ACTOR:$GITHUB_TOKEN -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_ACTOR}/clashX/pages/builds
 
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 2
+    #- name: Delete workflow runs
+    #  uses: GitRML/delete-workflow-runs@main
+    #  with:
+    #    retain_days: 1
+    #    keep_minimum_runs: 2
     
     - name: Delete older releases
       uses: dev-drprasad/delete-older-releases@v0.2.0
